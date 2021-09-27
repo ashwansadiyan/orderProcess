@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitalHubAPI", "VitalHubAPI\VitalHubAPI.csproj", "{765262D2-0581-4EE4-91F2-FBE8E83D1412}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitalHubUI", "VitalHubUI\VitalHubUI.csproj", "{8CFCA024-16A5-4799-919D-C839A2650F61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{765262D2-0581-4EE4-91F2-FBE8E83D1412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{765262D2-0581-4EE4-91F2-FBE8E83D1412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{765262D2-0581-4EE4-91F2-FBE8E83D1412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{765262D2-0581-4EE4-91F2-FBE8E83D1412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CFCA024-16A5-4799-919D-C839A2650F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CFCA024-16A5-4799-919D-C839A2650F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CFCA024-16A5-4799-919D-C839A2650F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CFCA024-16A5-4799-919D-C839A2650F61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AA07D30-8FE6-4B44-8227-7C725F5E2ECC}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "dfc03657-05be-4d71-a174-8bcaebdd21b8",
+		"name": "MY APU",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Document",
+			"item": [
+				{
+					"name": "http://localhost:32314/Api/Orders/GetCustomerOrderBystatus?Id=3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:32314/Api/Orders/GetCustomerOrderBystatus?Id=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32314",
+							"path": [
+								"Api",
+								"Orders",
+								"GetCustomerOrderBystatus"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "3"
+								}
+							]
+						},
+						"description": "get"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:32314/Api/Orders/GetOrderStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32314/Api/Orders/GetOrderStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32314",
+							"path": [
+								"Api",
+								"Orders",
+								"GetOrderStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:32314/Api/Orders/GetOrderDetailsList?Id=2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:32314/Api/Orders/GetOrderDetailsList?Id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32314",
+							"path": [
+								"Api",
+								"Orders",
+								"GetOrderDetailsList"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:32314/Api/Orders/GetCustomerOrderDetails",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:32314/Api/Orders/GetCustomerOrderDetails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "32314",
+					"path": [
+						"Api",
+						"Orders",
+						"GetCustomerOrderDetails"
+					]
+				},
+				"description": "Get"
+			},
+			"response": []
+		}
+	]
+}

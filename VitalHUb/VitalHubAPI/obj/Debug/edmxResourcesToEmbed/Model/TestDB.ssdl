@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="customerOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderReference" Type="nvarchar" MaxLength="15" />
+    <Property Name="OrderDate" Type="datetime" />
+    <Property Name="OrderType" Type="int" Nullable="false" />
+    <Property Name="OrderStatus" Type="int" Nullable="false" />
+    <Property Name="qty" Type="int" />
+  </EntityType>
+  <EntityType Name="customerOrderDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LineId" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="LineId" Type="int" Nullable="false" />
+    <Property Name="ItemCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="ItemDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="qty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatusList">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="int" Nullable="false" />
+    <Property Name="OrderStatus" Type="nvarchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_OrderState">
+    <End Role="StatusList" Type="Self.StatusList" Multiplicity="1" />
+    <End Role="customerOrder" Type="Self.customerOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusList">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="customerOrder">
+        <PropertyRef Name="OrderStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonOrder">
+    <End Role="customerOrder" Type="Self.customerOrder" Multiplicity="1" />
+    <End Role="customerOrderDetails" Type="Self.customerOrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customerOrder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="customerOrderDetails">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestDBModelStoreContainer">
+    <EntitySet Name="customerOrder" EntityType="Self.customerOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="customerOrderDetails" EntityType="Self.customerOrderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StatusList" EntityType="Self.StatusList" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_OrderState" Association="Self.FK_OrderState">
+      <End Role="StatusList" EntitySet="StatusList" />
+      <End Role="customerOrder" EntitySet="customerOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonOrder" Association="Self.FK_PersonOrder">
+      <End Role="customerOrder" EntitySet="customerOrder" />
+      <End Role="customerOrderDetails" EntitySet="customerOrderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

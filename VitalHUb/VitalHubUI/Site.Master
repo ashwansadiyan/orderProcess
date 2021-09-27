@@ -1,0 +1,109 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="VitalHubUI.SiteMaster" %>
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <script src="../Scripts/MasterPage.js"></script>
+      <style>
+            th:first-of-type {
+              border-top-left-radius: 10px;
+            }
+            th:last-of-type {
+              border-top-right-radius: 10px;
+            }
+            tr:last-of-type td:first-of-type {
+              border-bottom-left-radius: 10px;
+            }
+            tr:last-of-type td:last-of-type {
+              border-bottom-right-radius: 10px;
+            }
+    </style>
+
+
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+           
+         
+                <asp:ScriptReference Name="WebFormsBundle" />
+                
+                <%--Site Scripts--%>
+            </Scripts>
+
+        </asp:ScriptManager>
+
+
+
+        <div class="body-content"><%--///body-content--%>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <div class="bg-light text-dark">
+                <div id="actionBtns" style="width:50%" class="col-md-6">
+                                    <button type="button" id="btnInQue" onclick="locateToInQue();"  style="width:150px;height:35px;" class="btn btn-danger">In Queue</button>
+                                    <button type="button" id="btnInPrg" onclick="locateToInprogress();" style="width:150px;height:35px;" class="btn btn-primary">In Progress</button>
+                                    <button type="button" id="btnPrPd"  onclick="locateToPrePared();" style="width:150px;height:35px;" class="btn btn-primary">Prepared</button>
+                                    <button type="button" id="btnCnceld" onclick="locateToCancled();"  style="width:150px;height:35px;"class="btn btn-primary">Cancelled</button>
+                 </div>
+                <div style="width:50%;float:right;" class="col-md-6">
+                    <h1 class="text-danger" style="text-align:right"> CHINESE DRAGON</h1>
+                </div>
+            </div>
+              <div class="modal" id="myModal" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="processHeader">Start Process</h5>
+                        <input type="text" id="orderID" hidden="hidden"/>
+                        <input type="text" id="State" hidden="hidden"/>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you want to Update ?.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="btnUpdateProcess" onclick="changeState(this)">Update Process</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+          <div>
+            <asp:ContentPlaceHolder ID="bodyContent" runat="server">
+       
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </form>
+</body>
+</html>

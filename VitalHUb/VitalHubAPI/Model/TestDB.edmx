@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customerOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderReference" Type="nvarchar" MaxLength="15" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="OrderType" Type="int" Nullable="false" />
+          <Property Name="OrderStatus" Type="int" Nullable="false" />
+          <Property Name="qty" Type="int" />
+        </EntityType>
+        <EntityType Name="customerOrderDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ItemDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="qty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusList">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="OrderStatus" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OrderState">
+          <End Role="StatusList" Type="Self.StatusList" Multiplicity="1" />
+          <End Role="customerOrder" Type="Self.customerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusList">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="customerOrder">
+              <PropertyRef Name="OrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrder">
+          <End Role="customerOrder" Type="Self.customerOrder" Multiplicity="1" />
+          <End Role="customerOrderDetails" Type="Self.customerOrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customerOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="customerOrderDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDBModelStoreContainer">
+          <EntitySet Name="customerOrder" EntityType="Self.customerOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customerOrderDetails" EntityType="Self.customerOrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusList" EntityType="Self.StatusList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_OrderState" Association="Self.FK_OrderState">
+            <End Role="StatusList" EntitySet="StatusList" />
+            <End Role="customerOrder" EntitySet="customerOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrder" Association="Self.FK_PersonOrder">
+            <End Role="customerOrder" EntitySet="customerOrder" />
+            <End Role="customerOrderDetails" EntitySet="customerOrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customerOrders" EntityType="TestDBModel.customerOrder" />
+          <EntitySet Name="customerOrderDetails" EntityType="TestDBModel.customerOrderDetail" />
+          <EntitySet Name="StatusLists" EntityType="TestDBModel.StatusList" />
+          <AssociationSet Name="FK_OrderState" Association="TestDBModel.FK_OrderState">
+            <End Role="StatusList" EntitySet="StatusLists" />
+            <End Role="customerOrder" EntitySet="customerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrder" Association="TestDBModel.FK_PersonOrder">
+            <End Role="customerOrder" EntitySet="customerOrders" />
+            <End Role="customerOrderDetail" EntitySet="customerOrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="customerOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderReference" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderType" Type="Int32" Nullable="false" />
+          <Property Name="OrderStatus" Type="Int32" Nullable="false" />
+          <Property Name="qty" Type="Int32" />
+          <NavigationProperty Name="StatusList" Relationship="TestDBModel.FK_OrderState" FromRole="customerOrder" ToRole="StatusList" />
+          <NavigationProperty Name="customerOrderDetails" Relationship="TestDBModel.FK_PersonOrder" FromRole="customerOrder" ToRole="customerOrderDetail" />
+        </EntityType>
+        <EntityType Name="customerOrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ItemDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="qty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="customerOrder" Relationship="TestDBModel.FK_PersonOrder" FromRole="customerOrderDetail" ToRole="customerOrder" />
+        </EntityType>
+        <EntityType Name="StatusList">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="customerOrders" Relationship="TestDBModel.FK_OrderState" FromRole="StatusList" ToRole="customerOrder" />
+        </EntityType>
+        <Association Name="FK_OrderState">
+          <End Type="TestDBModel.StatusList" Role="StatusList" Multiplicity="1" />
+          <End Type="TestDBModel.customerOrder" Role="customerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusList">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="customerOrder">
+              <PropertyRef Name="OrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrder">
+          <End Type="TestDBModel.customerOrder" Role="customerOrder" Multiplicity="1" />
+          <End Type="TestDBModel.customerOrderDetail" Role="customerOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customerOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="customerOrderDetail">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="TestDBEntities">
+          <EntitySetMapping Name="customerOrders">
+            <EntityTypeMapping TypeName="TestDBModel.customerOrder">
+              <MappingFragment StoreEntitySet="customerOrder">
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderReference" ColumnName="OrderReference" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customerOrderDetails">
+            <EntityTypeMapping TypeName="TestDBModel.customerOrderDetail">
+              <MappingFragment StoreEntitySet="customerOrderDetails">
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusLists">
+            <EntityTypeMapping TypeName="TestDBModel.StatusList">
+              <MappingFragment StoreEntitySet="StatusList">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="customerOrders" EntityType="TestDBModel.customerOrder" />
+    <EntitySet Name="customerOrderDetails" EntityType="TestDBModel.customerOrderDetail" />
+    <EntitySet Name="StatusLists" EntityType="TestDBModel.StatusList" />
+    <AssociationSet Name="FK_OrderState" Association="TestDBModel.FK_OrderState">
+      <End Role="StatusList" EntitySet="StatusLists" />
+      <End Role="customerOrder" EntitySet="customerOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonOrder" Association="TestDBModel.FK_PersonOrder">
+      <End Role="customerOrder" EntitySet="customerOrders" />
+      <End Role="customerOrderDetail" EntitySet="customerOrderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="customerOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderReference" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="OrderDate" Type="DateTime" Precision="3" />
+    <Property Name="OrderType" Type="Int32" Nullable="false" />
+    <Property Name="OrderStatus" Type="Int32" Nullable="false" />
+    <Property Name="qty" Type="Int32" />
+    <NavigationProperty Name="StatusList" Relationship="TestDBModel.FK_OrderState" FromRole="customerOrder" ToRole="StatusList" />
+    <NavigationProperty Name="customerOrderDetails" Relationship="TestDBModel.FK_PersonOrder" FromRole="customerOrder" ToRole="customerOrderDetail" />
+  </EntityType>
+  <EntityType Name="customerOrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LineId" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="LineId" Type="Int32" Nullable="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ItemDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="qty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="customerOrder" Relationship="TestDBModel.FK_PersonOrder" FromRole="customerOrderDetail" ToRole="customerOrder" />
+  </EntityType>
+  <EntityType Name="StatusList">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="Int32" Nullable="false" />
+    <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="customerOrders" Relationship="TestDBModel.FK_OrderState" FromRole="StatusList" ToRole="customerOrder" />
+  </EntityType>
+  <Association Name="FK_OrderState">
+    <End Type="TestDBModel.StatusList" Role="StatusList" Multiplicity="1" />
+    <End Type="TestDBModel.customerOrder" Role="customerOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusList">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="customerOrder">
+        <PropertyRef Name="OrderStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonOrder">
+    <End Type="TestDBModel.customerOrder" Role="customerOrder" Multiplicity="1" />
+    <End Type="TestDBModel.customerOrderDetail" Role="customerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customerOrder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="customerOrderDetail">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
